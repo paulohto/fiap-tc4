@@ -1,16 +1,25 @@
-package com.tc4.streaming.entities;
+package com.tc4.streaming.infrastructure.persistence;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+//import org.springframework.data.relational.core.mapping.Table;
 import java.time.LocalDateTime;
 
-public class VideoEntity {
-    private final String titulo;
-    private final String descricao;
-    private final String url;
-    private final LocalDateTime dataDaPublicacao;
-    private final String categoria;
+@Document(collection = "videos")
+public class VideoEntityAux {
+
+//    @Id
+//    private Long id;
+    private String titulo;
+    private String descricao;
+    private String url;
+    private LocalDateTime dataDaPublicacao;
+    private String categoria;
     private Integer gostei = 1;
 
-    public VideoEntity(
+    public VideoEntityAux(){}
+
+    public VideoEntityAux(
             String titulo,
             String descricao,
             String url,
@@ -58,4 +67,5 @@ public class VideoEntity {
     public void setGostei(Integer gostei) {
         this.gostei = gostei;
     }
+
 }
