@@ -8,8 +8,8 @@ import java.time.LocalDateTime;
 @Document(collection = "videos")
 public class VideoEntityAux {
 
-//    @Id
-//    private Long id;
+    @Id
+    private String id;
     private String titulo;
     private String descricao;
     private String url;
