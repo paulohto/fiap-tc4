@@ -6,6 +6,7 @@ import com.tc4.streaming.infrastructure.persistence.VideoEntityAux;
 public class VideoEntityAuxMapper {
     VideoEntityAux toEntity(VideoEntity videoDomainObj){
         return new VideoEntityAux(
+                //videoDomainObj.getId(),
                 videoDomainObj.getTitulo(),
                 videoDomainObj.getDescricao(),
                 videoDomainObj.getUrl(),
@@ -16,6 +17,7 @@ public class VideoEntityAuxMapper {
 
     VideoEntity toDomainObj(VideoEntityAux videoEntityAux){
         return new VideoEntity(
+                videoEntityAux.getId(),
                 videoEntityAux.getTitulo(),
                 videoEntityAux.getDescricao(),
                 videoEntityAux.getUrl(),

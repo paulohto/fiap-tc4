@@ -37,12 +37,9 @@ public class VideoCrudUseCase {
         return ivideoGateway.obterVideoPorCodigo(id);
     }
 
-//    public Mono<VideoEntity> apagarVideo(String videoId) {
-//        return ivideoGateway.apagarVideo(videoId);
-//    }
+    public Mono<Void> apagarVideo(String videoId) {
+        return ivideoGateway.apagarVideo(videoId);
+    }
 
-//    public VideoEntity criarVideo(VideoEntity video){
-//        return ivideoGateway.criarVideo(video);
-//    }
 
 }

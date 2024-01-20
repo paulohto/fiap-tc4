@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 public class VideoDTOMapper {
     CreateVideoResponse toResponse(VideoEntity videoEntity){
         return new CreateVideoResponse(
+                videoEntity.getId(),
                 videoEntity.getTitulo(),
                 videoEntity.getDescricao(),
                 videoEntity.getUrl(),
@@ -18,6 +19,7 @@ public class VideoDTOMapper {
 
     public VideoEntity toVideoEntity(CreateVideoRequest request){
         return  new VideoEntity(
+                request.id(),
                 request.titulo(),
                 request.descricao(),
                 request.url(),

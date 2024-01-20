@@ -3,14 +3,17 @@ package com.tc4.streaming.entities;
 import java.time.LocalDateTime;
 
 public class VideoEntity {
+    //private final String id;
     private final String titulo;
     private final String descricao;
     private final String url;
     private final LocalDateTime dataDaPublicacao;
     private final String categoria;
+    private final String id;
     private Integer gostei = 1;
 
     public VideoEntity(
+            String id,
             String titulo,
             String descricao,
             String url,
@@ -22,6 +25,7 @@ public class VideoEntity {
             throw new IllegalArgumentException("Campos não podem ser vazios.");
         }
 
+        this.id = id;
         this.titulo = titulo;
         this.descricao = descricao;
         this.url = url;
@@ -29,6 +33,7 @@ public class VideoEntity {
         this.categoria = categoria;
         this.gostei = gostei;
     }
+
 
     public String getTitulo() {
         return this.titulo;
@@ -57,5 +62,9 @@ public class VideoEntity {
 
     public void setGostei(Integer gostei) {
         this.gostei = gostei;
+    }
+
+    public String getId() {
+        return id;
     }
 }

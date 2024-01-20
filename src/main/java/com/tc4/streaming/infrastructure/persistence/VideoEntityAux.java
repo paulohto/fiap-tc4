@@ -20,6 +20,7 @@ public class VideoEntityAux {
     public VideoEntityAux(){}
 
     public VideoEntityAux(
+            //String id,
             String titulo,
             String descricao,
             String url,
@@ -31,6 +32,7 @@ public class VideoEntityAux {
             throw new IllegalArgumentException("Campos não podem ser vazios.");
         }
 
+        //this.id = id;
         this.titulo = titulo;
         this.descricao = descricao;
         this.url = url;
@@ -39,6 +41,12 @@ public class VideoEntityAux {
         this.gostei = gostei;
     }
 
+    public String getId() {
+        return id;
+    }
+    public void setId(String id) {
+        this.id = id;
+    }
     public String getTitulo() {
         return this.titulo;
     }

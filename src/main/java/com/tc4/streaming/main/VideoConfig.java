@@ -8,6 +8,7 @@ import com.tc4.streaming.infrastructure.persistence.IVideoRepository;
 import com.tc4.streaming.usercases.VideoCrudUseCase;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.mongodb.core.MongoTemplate;
 
 @Configuration
 public class VideoConfig {
@@ -17,9 +18,14 @@ public class VideoConfig {
     }
 
     @Bean
-    IVideoGateway ivideoGateway(IVideoRepository ivideoRepository, VideoEntityAuxMapper videoEntityAuxMapper){
+    IVideoGateway ivideoGateway( IVideoRepository ivideoRepository, VideoEntityAuxMapper videoEntityAuxMapper){
         return new VideoRepositoryGateway(ivideoRepository, videoEntityAuxMapper);
     }
+
+//    @Bean
+//    IVideoGateway ivideoGateway(MongoTemplate mongoTemplate, IVideoRepository ivideoRepository, VideoEntityAuxMapper videoEntityAuxMapper){
+//        return new VideoRepositoryGateway(mongoTemplate, ivideoRepository, videoEntityAuxMapper);
+//    }
 
     @Bean
     VideoEntityAuxMapper videoEntityAuxMapper() {

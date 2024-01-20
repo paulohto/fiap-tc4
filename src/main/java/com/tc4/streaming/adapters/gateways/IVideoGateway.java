@@ -10,11 +10,9 @@ public interface IVideoGateway {
     Mono<VideoEntity> criarVideo(VideoEntity video);
     Flux<VideoEntityAux> obterTodosVideos();
     Mono<VideoEntityAux> obterVideoPorCodigo(String videoId);
-    //Mono<VideoEntity> apagarVideo(String videoId);
+    Mono<Void> apagarVideo(String videoId);
 
+    //Flux<VideoEntityAux> obterPorCategoria(String categoria);
 
-//    Mono<VideoEntity> GravarVideo(VideoEntity video);
-//
-//    Mono<VideoEntity> ObterVideoPorCategoria(String categoria);
 
 }

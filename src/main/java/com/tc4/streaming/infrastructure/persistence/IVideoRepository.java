@@ -6,8 +6,5 @@ import org.springframework.data.repository.CrudRepository;
 import reactor.core.publisher.Mono;
 
 public interface IVideoRepository extends ReactiveMongoRepository<VideoEntityAux, String> {
-//       Mono<VideoEntity> deleteById(String videoId);
-//    Mono<VideoEntity> save(VideoEntity video);
-//    Mono<VideoEntity> findByCategory(String category);
-
+    //Mono<Void> deleteById(String id);
 }

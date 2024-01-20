@@ -4,14 +4,20 @@ import com.tc4.streaming.adapters.gateways.IVideoGateway;
 import com.tc4.streaming.entities.VideoEntity;
 import com.tc4.streaming.infrastructure.persistence.IVideoRepository;
 import com.tc4.streaming.infrastructure.persistence.VideoEntityAux;
+import org.reactivestreams.Publisher;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 public class VideoRepositoryGateway implements IVideoGateway {
+
+//    private final MongoTemplate mongoTemplate;
+
+
     private final IVideoRepository ivideoRepository;
     private final VideoEntityAuxMapper videoEntityAuxMapper;
 
     public VideoRepositoryGateway(IVideoRepository ivideoRepository, VideoEntityAuxMapper videoEntityAuxMapper) {
+//        this.mongoTemplate = mongoTemplate;
         this.ivideoRepository = ivideoRepository;
         this.videoEntityAuxMapper = videoEntityAuxMapper;
     }
@@ -34,17 +40,16 @@ public class VideoRepositoryGateway implements IVideoGateway {
                 //.orElseThrow(()-> new IllegalArgumentException("Vídeo não encontrado"));
     }
 
+    @Override
+    public Mono<Void> apagarVideo(String videoId) {
+        return ivideoRepository.deleteById(videoId);
+    }
+
 //    @Override
-//    public Mono<VideoEntity> apagarVideo(String videoId) {
-//        return ivideoRepository.deleteById(videoId);
+//    public Flux<VideoEntityAux> obterPorCategoria(String categoria) {
+//        Query query = new Query(Criteria.where("categoria").in(categoria));
+//        return (Flux<VideoEntityAux>) mongoTemplate.find(query, VideoEntityAux.class);
 //    }
 
-
-//    @Override
-//    public VideoEntity criarVideo(VideoEntity videoDomainObj) {
-//        VideoEntityAux videoEntityAux = videoEntityAuxMapper.toEntity(videoDomainObj);
-//        VideoEntityAux savedObj = ivideoRepository.save(videoEntityAux).block(); // depois retirar o block
-//        return videoEntityAuxMapper.toDomainObj(savedObj);
-//    }
 
 }
