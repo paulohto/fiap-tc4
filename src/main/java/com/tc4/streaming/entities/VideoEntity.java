@@ -3,7 +3,6 @@ package com.tc4.streaming.entities;
 import java.time.LocalDateTime;
 
 public class VideoEntity {
-    //private final String id;
     private final String titulo;
     private final String descricao;
     private final String url;
@@ -31,7 +30,7 @@ public class VideoEntity {
         this.url = url;
         this.dataDaPublicacao = dataDaPublicacao;
         this.categoria = categoria;
-        this.gostei = gostei;
+        this.gostei = 1;
     }
 
 
