@@ -1,0 +1,37 @@
+version: "3.8"
+services:
+  mongodb:
+    image: mongo
+    container_name: mongodb
+    expose:
+      - 27017
+    ports:
+      - 27017:27017
+    volumes:
+      - data:/data
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=rootuser
+      - MONGO_INITDB_ROOT_PASSWORD=rootpass
+  mongo-express:
+    image: mongo-express
+    container_name: mongo-express
+    restart: always
+    ports:
+      - 8081:8081
+    environment:
+      - SPRING_CONFIG_MONGODB_ADMIN_USERNAME=rootuser
+      - SPRING_CONFIG_MONGODB_ADMIN_PASSWORD=rootpass
+      - SPRING_CONFIG_MONGODB_SERVER=mongodb
+  spring_application:
+    build: .
+    container_name: spring_application
+    ports:
+      - 8080:8080
+    depends_on:
+      mongodb:
+        condition: service_started
+volumes:
+  data: {}
+networks:
+  default:
+    name: redelocal
