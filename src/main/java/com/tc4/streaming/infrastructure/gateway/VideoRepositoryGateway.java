@@ -4,14 +4,12 @@ import com.tc4.streaming.adapters.gateways.IVideoGateway;
 import com.tc4.streaming.entities.VideoEntity;
 import com.tc4.streaming.infrastructure.persistence.IVideoRepository;
 import com.tc4.streaming.infrastructure.persistence.VideoEntityAux;
-import org.reactivestreams.Publisher;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 public class VideoRepositoryGateway implements IVideoGateway {
 
 //    private final MongoTemplate mongoTemplate;
-
 
     private final IVideoRepository ivideoRepository;
     private final VideoEntityAuxMapper videoEntityAuxMapper;
@@ -38,6 +36,26 @@ public class VideoRepositoryGateway implements IVideoGateway {
         return this.ivideoRepository
                 .findById(videoId);
                 //.orElseThrow(()-> new IllegalArgumentException("Vídeo não encontrado"));
+    }
+
+    @Override
+    public Mono<VideoEntity> editarVideo(String videoId, VideoEntityAux videoEditado) {
+        return this.ivideoRepository.findById(videoId)
+                .flatMap(existingVideo -> {
+                    VideoEntityAux updatedVideoAux = new VideoEntityAux(
+                            //existingVideo.getId(),
+                            existingVideo.getId(),
+                            videoEditado.getTitulo(),
+                            videoEditado.getDescricao(),
+                            videoEditado.getUrl(),
+                            videoEditado.getDataDaPublicacao(),
+                            videoEditado.getCategoria()
+                            //videoEditado.getGostei()
+
+                    );
+                    return ivideoRepository.save(updatedVideoAux)
+                            .map(videoEntityAuxMapper::toDomainObj);
+                });
     }
 
     @Override

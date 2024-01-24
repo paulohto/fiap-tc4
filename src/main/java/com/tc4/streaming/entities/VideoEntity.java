@@ -3,14 +3,14 @@ package com.tc4.streaming.entities;
 import java.time.LocalDateTime;
 
 public class VideoEntity {
-    //private final String id;
+    private final String id;
     private final String titulo;
     private final String descricao;
     private final String url;
     private final LocalDateTime dataDaPublicacao;
     private final String categoria;
-    private final String id;
-    private Integer gostei = 1;
+    //private final String id;
+    //private Integer gostei = 1;
 
     public VideoEntity(
             String id,
@@ -19,9 +19,10 @@ public class VideoEntity {
             String url,
             LocalDateTime dataDaPublicacao,
             String categoria
+            //Integer gostei
     )
     {
-        if(titulo.isEmpty() || descricao.isEmpty() || url.isEmpty() || dataDaPublicacao == null || categoria.isEmpty()){
+        if(titulo == null || titulo.isEmpty() || descricao.isEmpty() || url.isEmpty() || dataDaPublicacao == null || categoria.isEmpty()){
             throw new IllegalArgumentException("Campos não podem ser vazios.");
         }
 
@@ -31,7 +32,7 @@ public class VideoEntity {
         this.url = url;
         this.dataDaPublicacao = dataDaPublicacao;
         this.categoria = categoria;
-        this.gostei = gostei;
+        //this.gostei = gostei;
     }
 
 
@@ -56,15 +57,28 @@ public class VideoEntity {
     }
 
     // FAVORITAR - GOSTEI //
-    public Integer getGostei() {
-        return gostei;
-    }
-
-    public void setGostei(Integer gostei) {
-        this.gostei = gostei;
-    }
+//    public Integer getGostei() {
+//        return gostei;
+//    }
+//
+//    public void setGostei(Integer gostei) {
+//        this.gostei = gostei;
+//    }
 
     public String getId() {
         return id;
+    }
+
+    // Construtor de cópia
+    public VideoEntity(VideoEntity original) {
+        this(
+                original.getId(),
+                original.getTitulo(),
+                original.getDescricao(),
+                original.getUrl(),
+                original.getDataDaPublicacao(),
+                original.getCategoria()
+                //original.getGostei()
+        );
     }
 }
