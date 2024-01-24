@@ -3,14 +3,14 @@ package com.tc4.streaming.entities;
 import java.time.LocalDateTime;
 
 public class VideoEntity {
+
     private final String id;
+
     private final String titulo;
     private final String descricao;
     private final String url;
     private final LocalDateTime dataDaPublicacao;
     private final String categoria;
-    //private final String id;
-    //private Integer gostei = 1;
 
     public VideoEntity(
             String id,
@@ -32,7 +32,7 @@ public class VideoEntity {
         this.url = url;
         this.dataDaPublicacao = dataDaPublicacao;
         this.categoria = categoria;
-        //this.gostei = gostei;
+        this.gostei = 1;
     }
 
 
@@ -55,15 +55,6 @@ public class VideoEntity {
     public String getCategoria() {
         return this.categoria;
     }
-
-    // FAVORITAR - GOSTEI //
-//    public Integer getGostei() {
-//        return gostei;
-//    }
-//
-//    public void setGostei(Integer gostei) {
-//        this.gostei = gostei;
-//    }
 
     public String getId() {
         return id;

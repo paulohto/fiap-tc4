@@ -8,16 +8,6 @@ import reactor.core.publisher.Mono;
 
 public class VideoCrudUseCase {
 
-//    public static VideoEntity CriarVideo(
-//            String titulo,
-//            String descricao,
-//            String url,
-//            LocalDateTime dataDaPublicacao,
-//            String categoria
-//    ){
-//        VideoEntity novoVideo = new VideoEntity(titulo, descricao, url, dataDaPublicacao, categoria);
-//        return novoVideo;
-//    }
 
     private IVideoGateway ivideoGateway;
 
@@ -44,6 +34,4 @@ public class VideoCrudUseCase {
     public Mono<VideoEntity> editarVideo(String videoId, VideoEntityAux videoEditado){
         return ivideoGateway.editarVideo(videoId,videoEditado);
     }
-
-
 }

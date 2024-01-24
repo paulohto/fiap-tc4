@@ -9,13 +9,10 @@ import reactor.core.publisher.Mono;
 
 public class VideoRepositoryGateway implements IVideoGateway {
 
-//    private final MongoTemplate mongoTemplate;
-
     private final IVideoRepository ivideoRepository;
     private final VideoEntityAuxMapper videoEntityAuxMapper;
 
     public VideoRepositoryGateway(IVideoRepository ivideoRepository, VideoEntityAuxMapper videoEntityAuxMapper) {
-//        this.mongoTemplate = mongoTemplate;
         this.ivideoRepository = ivideoRepository;
         this.videoEntityAuxMapper = videoEntityAuxMapper;
     }
@@ -35,7 +32,6 @@ public class VideoRepositoryGateway implements IVideoGateway {
     public Mono<VideoEntityAux> obterVideoPorCodigo(String videoId) {
         return this.ivideoRepository
                 .findById(videoId);
-                //.orElseThrow(()-> new IllegalArgumentException("Vídeo não encontrado"));
     }
 
     @Override
@@ -43,14 +39,12 @@ public class VideoRepositoryGateway implements IVideoGateway {
         return this.ivideoRepository.findById(videoId)
                 .flatMap(existingVideo -> {
                     VideoEntityAux updatedVideoAux = new VideoEntityAux(
-                            //existingVideo.getId(),
                             existingVideo.getId(),
                             videoEditado.getTitulo(),
                             videoEditado.getDescricao(),
                             videoEditado.getUrl(),
                             videoEditado.getDataDaPublicacao(),
                             videoEditado.getCategoria()
-                            //videoEditado.getGostei()
 
                     );
                     return ivideoRepository.save(updatedVideoAux)
@@ -62,12 +56,5 @@ public class VideoRepositoryGateway implements IVideoGateway {
     public Mono<Void> apagarVideo(String videoId) {
         return ivideoRepository.deleteById(videoId);
     }
-
-//    @Override
-//    public Flux<VideoEntityAux> obterPorCategoria(String categoria) {
-//        Query query = new Query(Criteria.where("categoria").in(categoria));
-//        return (Flux<VideoEntityAux>) mongoTemplate.find(query, VideoEntityAux.class);
-//    }
-
 
 }
