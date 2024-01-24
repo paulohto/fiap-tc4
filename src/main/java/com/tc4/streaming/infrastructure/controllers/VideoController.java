@@ -36,6 +36,11 @@ public class VideoController {
         return this.videoCrudUseCase.obterVideoPorCodigo(id);
     }
 
+    @PutMapping("/editar/{id}")
+    Mono<VideoEntity> editarVideo(@PathVariable String id, @RequestBody VideoEntityAux videoEditado){
+        return this.videoCrudUseCase.editarVideo(id,videoEditado);
+    }
+
     @DeleteMapping("/apagar/{id}")
     Mono<Void> apagarVideo(@PathVariable String id){
         return this.videoCrudUseCase.apagarVideo(id);

@@ -35,6 +35,24 @@ public class VideoRepositoryGateway implements IVideoGateway {
     }
 
     @Override
+    public Mono<VideoEntity> editarVideo(String videoId, VideoEntityAux videoEditado) {
+        return this.ivideoRepository.findById(videoId)
+                .flatMap(existingVideo -> {
+                    VideoEntityAux updatedVideoAux = new VideoEntityAux(
+                            existingVideo.getId(),
+                            videoEditado.getTitulo(),
+                            videoEditado.getDescricao(),
+                            videoEditado.getUrl(),
+                            videoEditado.getDataDaPublicacao(),
+                            videoEditado.getCategoria()
+
+                    );
+                    return ivideoRepository.save(updatedVideoAux)
+                            .map(videoEntityAuxMapper::toDomainObj);
+                });
+    }
+
+    @Override
     public Mono<Void> apagarVideo(String videoId) {
         return ivideoRepository.deleteById(videoId);
     }

@@ -9,6 +9,7 @@ public record CreateVideoResponse(
         String url,
         LocalDateTime dataDaPublicacao,
         String categoria
-    ) {
+        //Integer gostei
+) {
 
 }

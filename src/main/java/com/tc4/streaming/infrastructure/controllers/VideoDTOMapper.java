@@ -14,6 +14,7 @@ public class VideoDTOMapper {
                 videoEntity.getUrl(),
                 videoEntity.getDataDaPublicacao(),
                 videoEntity.getCategoria()
+                //videoEntity.getGostei()
         );
     }
 
@@ -25,6 +26,7 @@ public class VideoDTOMapper {
                 request.url(),
                 request.dataDaPublicacao(),
                 request.categoria()
+                //1
         );
     }
 }

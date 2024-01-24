@@ -31,4 +31,7 @@ public class VideoCrudUseCase {
         return ivideoGateway.apagarVideo(videoId);
     }
 
+    public Mono<VideoEntity> editarVideo(String videoId, VideoEntityAux videoEditado){
+        return ivideoGateway.editarVideo(videoId,videoEditado);
+    }
 }
