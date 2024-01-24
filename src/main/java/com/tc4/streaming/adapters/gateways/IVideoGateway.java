@@ -6,13 +6,9 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 public interface IVideoGateway {
-    //VideoEntity criarVideo(VideoEntity video);
     Mono<VideoEntity> criarVideo(VideoEntity video);
     Flux<VideoEntityAux> obterTodosVideos();
     Mono<VideoEntityAux> obterVideoPorCodigo(String videoId);
     Mono<Void> apagarVideo(String videoId);
-
-    //Flux<VideoEntityAux> obterPorCategoria(String categoria);
-
 
 }
