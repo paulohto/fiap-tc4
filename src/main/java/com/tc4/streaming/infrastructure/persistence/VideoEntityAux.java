@@ -1,28 +1,43 @@
-package com.tc4.streaming.entities;
+package com.tc4.streaming.infrastructure.persistence;
 
+import com.tc4.streaming.entities.VideoEntity;
+import org.bson.types.ObjectId;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+//import org.springframework.data.relational.core.mapping.Table;
 import java.time.LocalDateTime;
 
-public class VideoEntity {
-    private final String id;
-    private final String titulo;
-    private final String descricao;
-    private final String url;
-    private final LocalDateTime dataDaPublicacao;
-    private final String categoria;
-    //private final String id;
+@Document(collection = "videos")
+public class VideoEntityAux {
+
+    @Id
+    private String id;
+    private String titulo;
+    private String descricao;
+    private String url;
+    private LocalDateTime dataDaPublicacao;
+    private String categoria;
     //private Integer gostei = 1;
 
-    public VideoEntity(
+
+    // Construtor sem argumentos
+    public VideoEntityAux() {
+    }
+
+    public VideoEntityAux(
             String id,
+            //ObjectId id,
             String titulo,
             String descricao,
             String url,
             LocalDateTime dataDaPublicacao,
             String categoria
-            //Integer gostei
     )
     {
-        if(titulo == null || titulo.isEmpty() || descricao.isEmpty() || url.isEmpty() || dataDaPublicacao == null || categoria.isEmpty()){
+        if (id == null && titulo == null && descricao == null && url == null && dataDaPublicacao == null && categoria == null) {
+
+        }
+        else if(id == null || id.isEmpty() || titulo == null || titulo.isEmpty() || descricao.isEmpty() || url.isEmpty() || dataDaPublicacao == null || categoria.isEmpty()){
             throw new IllegalArgumentException("Campos não podem ser vazios.");
         }
 
@@ -36,6 +51,13 @@ public class VideoEntity {
     }
 
 
+
+    public String getId() {
+        return id;
+    }
+    public void setId(String id) {
+        this.id = id;
+    }
     public String getTitulo() {
         return this.titulo;
     }
@@ -65,20 +87,4 @@ public class VideoEntity {
 //        this.gostei = gostei;
 //    }
 
-    public String getId() {
-        return id;
-    }
-
-    // Construtor de cópia
-    public VideoEntity(VideoEntity original) {
-        this(
-                original.getId(),
-                original.getTitulo(),
-                original.getDescricao(),
-                original.getUrl(),
-                original.getDataDaPublicacao(),
-                original.getCategoria()
-                //original.getGostei()
-        );
-    }
 }
