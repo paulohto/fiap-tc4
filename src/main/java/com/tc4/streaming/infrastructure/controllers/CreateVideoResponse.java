@@ -1,5 +1,6 @@
 package com.tc4.streaming.infrastructure.controllers;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public record CreateVideoResponse(
@@ -7,7 +8,7 @@ public record CreateVideoResponse(
         String titulo,
         String descricao,
         String url,
-        LocalDateTime dataDaPublicacao,
+        LocalDate dataDaPublicacao,
         String categoria
         //Integer gostei
 ) {
