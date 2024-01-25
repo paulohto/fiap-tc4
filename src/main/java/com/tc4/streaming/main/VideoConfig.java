@@ -22,11 +22,6 @@ public class VideoConfig {
         return new VideoRepositoryGateway(ivideoRepository, videoEntityAuxMapper);
     }
 
-//    @Bean
-//    IVideoGateway ivideoGateway(MongoTemplate mongoTemplate, IVideoRepository ivideoRepository, VideoEntityAuxMapper videoEntityAuxMapper){
-//        return new VideoRepositoryGateway(mongoTemplate, ivideoRepository, videoEntityAuxMapper);
-//    }
-
     @Bean
     VideoEntityAuxMapper videoEntityAuxMapper() {
         return new VideoEntityAuxMapper();
