@@ -30,7 +30,6 @@ public class VideoController {
 
     @GetMapping
     Flux<VideoEntityAux> obterTodosVideos(){
-        //VideoEntity videoEntityBusinessObj = videoDTOMapper.toVideoEntity(request);
         return this.videoCrudUseCase.obterTodosVideos();
     }
     @GetMapping("/{id}")
