@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.time.LocalDate;
+
 @RestController
 @RequestMapping("/videos")
 public class VideoController {
@@ -44,6 +46,26 @@ public class VideoController {
     @DeleteMapping("/apagar/{id}")
     Mono<Void> apagarVideo(@PathVariable String id){
         return this.videoCrudUseCase.apagarVideo(id);
+    }
+
+    @GetMapping("/categoria")
+    Flux<VideoEntityAux> obterVideoPorCategoria(@RequestParam("categoria") String categoria){
+        return this.videoCrudUseCase.obterVideoPorCategoria(categoria);
+    }
+
+    @GetMapping("/titulo")
+    Flux<VideoEntityAux> obterVideoPorTitulo(@RequestParam("titulo") String titulo){
+        return this.videoCrudUseCase.obterVideoPorTitulo(titulo);
+    }
+
+    @GetMapping("/data")
+    Flux<VideoEntityAux> obterVideoPorData(@RequestParam("data") LocalDate data){
+        return this.videoCrudUseCase.obterVideoPorData(data);
+    }
+
+    @GetMapping("/tituloedata")
+    Flux<VideoEntityAux> obterVideoPorTituloEData(@RequestParam("titulo") String titulo, @RequestParam("data") LocalDate data){
+        return this.videoCrudUseCase.obterVideoPorTituloEData(titulo,data);
     }
 
 }

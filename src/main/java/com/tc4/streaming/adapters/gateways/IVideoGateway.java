@@ -5,15 +5,17 @@ import com.tc4.streaming.infrastructure.persistence.VideoEntityAux;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 public interface IVideoGateway {
-    //VideoEntity criarVideo(VideoEntity video);
     Mono<VideoEntity> criarVideo(VideoEntity video);
     Flux<VideoEntityAux> obterTodosVideos();
     Mono<VideoEntityAux> obterVideoPorCodigo(String videoId);
-
     Mono<VideoEntity> editarVideo(String videoId, VideoEntityAux videoEditado);
-
     Mono<Void> apagarVideo(String videoId);
-
-    //Flux<VideoEntityAux> obterPorCategoria(String categoria);
+    Flux<VideoEntityAux> obterVideoPorCategoria(String categoria);
+    Flux<VideoEntityAux> obterVideoPorTitulo(String titulo);
+    Flux<VideoEntityAux> obterVideoPorData(LocalDate data);
+    Flux<VideoEntityAux> obterVideoPorTituloEData(String titulo, LocalDate data);
 }

@@ -1,5 +1,6 @@
 package com.tc4.streaming.main;
 
+import com.mongodb.reactivestreams.client.MongoClient;
 import com.tc4.streaming.adapters.gateways.IVideoGateway;
 import com.tc4.streaming.infrastructure.controllers.VideoDTOMapper;
 import com.tc4.streaming.infrastructure.gateway.VideoEntityAuxMapper;
@@ -17,15 +18,16 @@ public class VideoConfig {
         return new VideoCrudUseCase(ivideoGateway);
     }
 
-    @Bean
-    IVideoGateway ivideoGateway( IVideoRepository ivideoRepository, VideoEntityAuxMapper videoEntityAuxMapper){
-        return new VideoRepositoryGateway(ivideoRepository, videoEntityAuxMapper);
-    }
-
 //    @Bean
-//    IVideoGateway ivideoGateway(MongoTemplate mongoTemplate, IVideoRepository ivideoRepository, VideoEntityAuxMapper videoEntityAuxMapper){
-//        return new VideoRepositoryGateway(mongoTemplate, ivideoRepository, videoEntityAuxMapper);
+//    public MongoTemplate mongoTemplate(MongoClient mongoClient, String mongodb2) {
+//        // Configurações do MongoTemplate, como conexão com o banco de dados, podem ser adicionadas aqui
+//        return new MongoTemplate((com.mongodb.client.MongoClient) mongoClient, mongodb2);
 //    }
+
+    @Bean
+    IVideoGateway ivideoGateway(MongoTemplate mongoTemplate, IVideoRepository ivideoRepository, VideoEntityAuxMapper videoEntityAuxMapper){
+        return new VideoRepositoryGateway(mongoTemplate, ivideoRepository, videoEntityAuxMapper);
+    }
 
     @Bean
     VideoEntityAuxMapper videoEntityAuxMapper() {

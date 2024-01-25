@@ -4,18 +4,25 @@ import com.tc4.streaming.adapters.gateways.IVideoGateway;
 import com.tc4.streaming.entities.VideoEntity;
 import com.tc4.streaming.infrastructure.persistence.IVideoRepository;
 import com.tc4.streaming.infrastructure.persistence.VideoEntityAux;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 public class VideoRepositoryGateway implements IVideoGateway {
 
-//    private final MongoTemplate mongoTemplate;
+    private final MongoTemplate mongoTemplate;
 
     private final IVideoRepository ivideoRepository;
     private final VideoEntityAuxMapper videoEntityAuxMapper;
 
-    public VideoRepositoryGateway(IVideoRepository ivideoRepository, VideoEntityAuxMapper videoEntityAuxMapper) {
-//        this.mongoTemplate = mongoTemplate;
+
+    public VideoRepositoryGateway(MongoTemplate mongoTemplate, IVideoRepository ivideoRepository, VideoEntityAuxMapper videoEntityAuxMapper) {
+        this.mongoTemplate = mongoTemplate;
         this.ivideoRepository = ivideoRepository;
         this.videoEntityAuxMapper = videoEntityAuxMapper;
     }
@@ -35,7 +42,6 @@ public class VideoRepositoryGateway implements IVideoGateway {
     public Mono<VideoEntityAux> obterVideoPorCodigo(String videoId) {
         return this.ivideoRepository
                 .findById(videoId);
-                //.orElseThrow(()-> new IllegalArgumentException("Vídeo não encontrado"));
     }
 
     @Override
@@ -43,14 +49,12 @@ public class VideoRepositoryGateway implements IVideoGateway {
         return this.ivideoRepository.findById(videoId)
                 .flatMap(existingVideo -> {
                     VideoEntityAux updatedVideoAux = new VideoEntityAux(
-                            //existingVideo.getId(),
                             existingVideo.getId(),
                             videoEditado.getTitulo(),
                             videoEditado.getDescricao(),
                             videoEditado.getUrl(),
                             videoEditado.getDataDaPublicacao(),
                             videoEditado.getCategoria()
-                            //videoEditado.getGostei()
 
                     );
                     return ivideoRepository.save(updatedVideoAux)
@@ -63,11 +67,39 @@ public class VideoRepositoryGateway implements IVideoGateway {
         return ivideoRepository.deleteById(videoId);
     }
 
+    @Override
+    public Flux<VideoEntityAux> obterVideoPorCategoria(String categoria) {
+        Query query = new Query(Criteria.where("categoria").is(categoria));
+        return Flux.fromIterable(mongoTemplate.find(query, VideoEntityAux.class));
+    }
+
+    @Override
+    public Flux<VideoEntityAux> obterVideoPorTitulo(String titulo) {
+        Query query = new Query(Criteria.where("titulo").is(titulo));
+        return Flux.fromIterable(mongoTemplate.find(query, VideoEntityAux.class));
+    }
+
+    @Override
+    public Flux<VideoEntityAux> obterVideoPorData(LocalDate data) {
+        Query query = new Query(Criteria.where("dataDaPublicacao").is(data));
+        return Flux.fromIterable(mongoTemplate.find(query, VideoEntityAux.class));
+    }
+
 //    @Override
-//    public Flux<VideoEntityAux> obterPorCategoria(String categoria) {
-//        Query query = new Query(Criteria.where("categoria").in(categoria));
-//        return (Flux<VideoEntityAux>) mongoTemplate.find(query, VideoEntityAux.class);
+//    public Flux<VideoEntityAux> obterVideoPorData(LocalDate data) {
+//        // Ajuste para considerar o intervalo de 00:00:00 a 23:59:59
+//        LocalDateTime startOfDay = data.atStartOfDay();
+//        LocalDateTime endOfDay = data.atTime(23, 59, 59);
+//
+//        Query query = new Query(Criteria.where("dataDaPublicacao").gte(startOfDay).lte(endOfDay));
+//        return Flux.fromIterable(mongoTemplate.find(query, VideoEntityAux.class));
 //    }
+
+    @Override
+    public Flux<VideoEntityAux> obterVideoPorTituloEData(String titulo, LocalDate data) {
+        Query query = new Query(Criteria.where("titulo").is(titulo).and("dataDaPublicacao").is(data));
+        return Flux.fromIterable(mongoTemplate.find(query, VideoEntityAux.class));
+    }
 
 
 }
