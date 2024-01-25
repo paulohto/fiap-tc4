@@ -23,8 +23,6 @@ public class VideoEntityAuxMapper {
                 videoEntityAux.getUrl(),
                 videoEntityAux.getDataDaPublicacao(),
                 videoEntityAux.getCategoria()
-                /**/
-                //videoEntityAux.getGostei() // Inclua o campo gostei
         );
     }
 }

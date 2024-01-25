@@ -13,6 +13,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -32,7 +33,7 @@ class VideoCrudUseCaseTest {
     @Test
     void criarVideo() {
 
-        LocalDateTime dataDaPublicacao = LocalDateTime.parse("2024-01-16T00:30:00");
+        LocalDate dataDaPublicacao = LocalDate.parse("2024-01-16");
         VideoEntity videoEntity = new VideoEntity( "","Tema", "Filme", "https://filme.com", dataDaPublicacao, "filme");
 
         Mockito.when(ivideoGateway.criarVideo(any(VideoEntity.class))).thenReturn(Mono.just(videoEntity));
@@ -50,7 +51,7 @@ class VideoCrudUseCaseTest {
     @Test
     void obterTodosVideos() {
 
-        LocalDateTime dataDaPublicacao = LocalDateTime.parse("2024-01-16T00:30:00");
+        LocalDate dataDaPublicacao = LocalDate.parse("2024-01-16");
         VideoEntityAux videoEntityAux = new VideoEntityAux( "1234","Tema", "Filme", "https://filme.com", dataDaPublicacao, "filme");
 
         Mockito.when(ivideoGateway.obterTodosVideos()).thenReturn(Flux.just(videoEntityAux));
@@ -69,7 +70,7 @@ class VideoCrudUseCaseTest {
     @Test
     void obterVideoPorCodigo() {
 
-        LocalDateTime dataDaPublicacao = LocalDateTime.parse("2024-01-16T00:30:00");
+        LocalDate dataDaPublicacao = LocalDate.parse("2024-01-16");
         VideoEntityAux videoEntityAux = new VideoEntityAux( "1234","Tema", "Filme", "https://filme.com", dataDaPublicacao, "filme");
 
         Mockito.when(ivideoGateway.obterVideoPorCodigo(anyString())).thenReturn(Mono.just(videoEntityAux));
@@ -101,7 +102,7 @@ class VideoCrudUseCaseTest {
     @Test
     void editarVideo() {
 
-        LocalDateTime dataDaPublicacao = LocalDateTime.parse("2024-01-16T00:30:00");
+        LocalDate dataDaPublicacao = LocalDate.parse("2024-01-16");
         VideoEntityAux videoEntityAux = new VideoEntityAux( "1234","Tema", "Filme", "https://filme.com", dataDaPublicacao, "filme");
         VideoEntity videoEntity = new VideoEntity( "1234","Tema", "Filme", "https://filme.com", dataDaPublicacao, "filme");
 

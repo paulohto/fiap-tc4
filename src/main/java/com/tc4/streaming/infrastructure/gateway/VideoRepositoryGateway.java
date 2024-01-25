@@ -16,7 +16,6 @@ import java.time.LocalDateTime;
 public class VideoRepositoryGateway implements IVideoGateway {
 
     private final MongoTemplate mongoTemplate;
-
     private final IVideoRepository ivideoRepository;
     private final VideoEntityAuxMapper videoEntityAuxMapper;
 
@@ -85,21 +84,9 @@ public class VideoRepositoryGateway implements IVideoGateway {
         return Flux.fromIterable(mongoTemplate.find(query, VideoEntityAux.class));
     }
 
-//    @Override
-//    public Flux<VideoEntityAux> obterVideoPorData(LocalDate data) {
-//        // Ajuste para considerar o intervalo de 00:00:00 a 23:59:59
-//        LocalDateTime startOfDay = data.atStartOfDay();
-//        LocalDateTime endOfDay = data.atTime(23, 59, 59);
-//
-//        Query query = new Query(Criteria.where("dataDaPublicacao").gte(startOfDay).lte(endOfDay));
-//        return Flux.fromIterable(mongoTemplate.find(query, VideoEntityAux.class));
-//    }
-
     @Override
     public Flux<VideoEntityAux> obterVideoPorTituloEData(String titulo, LocalDate data) {
         Query query = new Query(Criteria.where("titulo").is(titulo).and("dataDaPublicacao").is(data));
         return Flux.fromIterable(mongoTemplate.find(query, VideoEntityAux.class));
     }
-
-
 }
