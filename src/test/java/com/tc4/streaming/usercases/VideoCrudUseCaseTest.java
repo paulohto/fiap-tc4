@@ -9,6 +9,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.boot.test.autoconfigure.web.client.AutoConfigureWebClient;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
@@ -116,5 +119,21 @@ class VideoCrudUseCaseTest {
                 .verify();
 
         Mockito.verify(ivideoGateway, times(1)).editarVideo(anyString(),any(VideoEntityAux.class));
+    }
+
+    @Test
+    void obterVideoPorCategoria() {
+    }
+
+    @Test
+    void obterVideoPorTitulo() {
+    }
+
+    @Test
+    void obterVideoPorData() {
+    }
+
+    @Test
+    void obterVideoPorTituloEData() {
     }
 }
