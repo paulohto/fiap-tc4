@@ -1,5 +1,6 @@
 package com.tc4.streaming.entities;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class VideoEntity {
@@ -9,7 +10,7 @@ public class VideoEntity {
     private final String titulo;
     private final String descricao;
     private final String url;
-    private final LocalDateTime dataDaPublicacao;
+    private final LocalDate dataDaPublicacao;
     private final String categoria;
 
     public VideoEntity(
@@ -17,7 +18,7 @@ public class VideoEntity {
             String titulo,
             String descricao,
             String url,
-            LocalDateTime dataDaPublicacao,
+            LocalDate dataDaPublicacao,
             String categoria
             //Integer gostei
     )
@@ -32,7 +33,7 @@ public class VideoEntity {
         this.url = url;
         this.dataDaPublicacao = dataDaPublicacao;
         this.categoria = categoria;
-        this.gostei = 1;
+        //this.gostei = 1;
     }
 
 
@@ -48,7 +49,7 @@ public class VideoEntity {
         return this.url;
     }
 
-    public LocalDateTime getDataDaPublicacao() {
+    public LocalDate getDataDaPublicacao() {
         return this.dataDaPublicacao;
     }
 

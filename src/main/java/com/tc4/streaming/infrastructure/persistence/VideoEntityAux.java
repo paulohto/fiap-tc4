@@ -5,6 +5,7 @@ import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 //import org.springframework.data.relational.core.mapping.Table;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Document(collection = "videos")
@@ -15,7 +16,7 @@ public class VideoEntityAux {
     private String titulo;
     private String descricao;
     private String url;
-    private LocalDateTime dataDaPublicacao;
+    private LocalDate dataDaPublicacao;
     private String categoria;
     //private Integer gostei = 1;
 
@@ -30,7 +31,7 @@ public class VideoEntityAux {
             String titulo,
             String descricao,
             String url,
-            LocalDateTime dataDaPublicacao,
+            LocalDate dataDaPublicacao,
             String categoria
     )
     {
@@ -70,7 +71,7 @@ public class VideoEntityAux {
         return this.url;
     }
 
-    public LocalDateTime getDataDaPublicacao() {
+    public LocalDate getDataDaPublicacao() {
         return this.dataDaPublicacao;
     }
 
