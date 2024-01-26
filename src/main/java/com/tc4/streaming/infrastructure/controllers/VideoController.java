@@ -4,6 +4,10 @@ import com.tc4.streaming.entities.VideoEntity;
 import com.tc4.streaming.infrastructure.persistence.VideoEntityAux;
 import com.tc4.streaming.usercases.VideoCrudUseCase;
 import org.reactivestreams.Publisher;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -28,11 +32,21 @@ public class VideoController {
                 .map(videoDTOMapper::toResponse);
     }
 
+    //LISTAGEM GERAL
     @GetMapping
     Flux<VideoEntityAux> obterTodosVideos(){
         //VideoEntity videoEntityBusinessObj = videoDTOMapper.toVideoEntity(request);
         return this.videoCrudUseCase.obterTodosVideos();
     }
+
+    //PAGINAÇÃO
+    @GetMapping("/pagina-videos")
+    public ResponseEntity<Flux<VideoEntityAux>> obterVideosPaginaveis(@RequestParam(defaultValue = "0") int page,
+                                                                      @RequestParam(defaultValue = "10") int size) {
+        Flux<VideoEntityAux> videos = videoCrudUseCase.obterVideosPaginaveis(page,size);
+        return ResponseEntity.ok(videos);
+    }
+
     @GetMapping("/{id}")
     Mono<VideoEntityAux> obterVideoPorCodigo(@PathVariable String id){
         return this.videoCrudUseCase.obterVideoPorCodigo(id);
@@ -63,7 +77,7 @@ public class VideoController {
         return this.videoCrudUseCase.obterVideoPorData(data);
     }
 
-    @GetMapping("/tituloedata")
+    @GetMapping("/titulo-data")
     Flux<VideoEntityAux> obterVideoPorTituloEData(@RequestParam("titulo") String titulo, @RequestParam("data") LocalDate data){
         return this.videoCrudUseCase.obterVideoPorTituloEData(titulo,data);
     }
