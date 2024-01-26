@@ -4,14 +4,17 @@ import com.tc4.streaming.adapters.gateways.IVideoGateway;
 import com.tc4.streaming.entities.VideoEntity;
 import com.tc4.streaming.infrastructure.persistence.IVideoRepository;
 import com.tc4.streaming.infrastructure.persistence.VideoEntityAux;
+import org.springframework.data.domain.*;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import org.springframework.data.mongodb.core.MongoTemplate;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class VideoRepositoryGateway implements IVideoGateway {
 
@@ -33,9 +36,19 @@ public class VideoRepositoryGateway implements IVideoGateway {
         return ivideoRepository.save(videoEntityAux)
                 .map(videoEntityAuxMapper::toDomainObj);
     }
+
+    //LISTAGEM GERAL
     @Override
     public Flux<VideoEntityAux> obterTodosVideos(){
         return this.ivideoRepository.findAll();
+    }
+
+    //PAGINAÇÃO
+    @Override
+    public Flux<VideoEntityAux> obterVideosPaginaveis(Pageable pageable) {
+        //Query query = new Query().with(pageable);
+        Query query = new Query().with(Sort.by(Sort.Order.desc("dataDaPublicacao"))).with(pageable);
+        return Flux.fromIterable(mongoTemplate.find(query, VideoEntityAux.class));
     }
 
     @Override
