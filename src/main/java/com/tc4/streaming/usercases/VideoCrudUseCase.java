@@ -3,6 +3,9 @@ package com.tc4.streaming.usercases;
 import com.tc4.streaming.adapters.gateways.IVideoGateway;
 import com.tc4.streaming.entities.VideoEntity;
 import com.tc4.streaming.infrastructure.persistence.VideoEntityAux;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -21,8 +24,15 @@ public class VideoCrudUseCase {
         return ivideoGateway.criarVideo(video);
     }
 
+    //LISTAGEM GERAL
     public Flux<VideoEntityAux> obterTodosVideos(){
         return ivideoGateway.obterTodosVideos();
+    }
+
+    //PAGINACAO
+    public Flux<VideoEntityAux> obterVideosPaginaveis(int pageNumber, int pageSize) {
+        Pageable pageable = PageRequest.of(pageNumber, pageSize);
+        return ivideoGateway.obterVideosPaginaveis(pageable);
     }
 
     public Mono<VideoEntityAux> obterVideoPorCodigo(String id){
