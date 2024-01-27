@@ -1,37 +1,35 @@
-version: "3.8"
+version: "3.1"
 services:
-  mongodb:
-    image: mongo
-    container_name: mongodb
-    expose:
-      - 27017
-    ports:
-      - 27017:27017
-    volumes:
-      - data:/data
-    environment:
-      - MONGO_INITDB_ROOT_USERNAME=fiap
-      - MONGO_INITDB_ROOT_PASSWORD=fiap123
   mongo-express:
     image: mongo-express
-    container_name: mongo-express
     restart: always
     ports:
       - 8081:8081
-    environment:
-      - SPRING_CONFIG_MONGODB_ADMIN_USERNAME=fiap
-      - SPRING_CONFIG_MONGODB_ADMIN_PASSWORD=fiap123
-      - SPRING_CONFIG_MONGODB_SERVER=mongodb
-  spring_application:
-    build: .
-    container_name: spring_application
-    ports:
-      - 8080:8080
     depends_on:
-      mongodb:
-        condition: service_started
-volumes:
-  data: {}
+      - mongo
+    environment:
+      - ME_CONFIG_MONGODB_ADMINUSERNAME:root
+      - ME_CONFIG_MONGODB_ADMINPASSWORD:example
+      - ME_CONFIG_MONGODB_URL:mongodb://root:example@mongo:27017/
+    links:
+      - mongo
+    networks:
+      - mongo-compose-network
+
+  mongo:
+    image: mongo
+    restart: always
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME:root
+      - MONGO_INITDB_ROOT_PASSWORD:example
+    volumes:
+      - D:/Docker/Volumes/MongoDB:/data/db
+    networks:
+      - mongo-compose-network
+
 networks:
-  default:
-    name: redelocal
+  mongo-compose-network:
+    driver: bridge
+

@@ -20,7 +20,6 @@ public class VideoEntity {
             String url,
             LocalDate dataDaPublicacao,
             String categoria
-            //Integer gostei
     )
     {
         if(titulo == null || titulo.isEmpty() || descricao.isEmpty() || url.isEmpty() || dataDaPublicacao == null || categoria.isEmpty()){
@@ -33,7 +32,6 @@ public class VideoEntity {
         this.url = url;
         this.dataDaPublicacao = dataDaPublicacao;
         this.categoria = categoria;
-        //this.gostei = 1;
     }
 
 
@@ -70,7 +68,6 @@ public class VideoEntity {
                 original.getUrl(),
                 original.getDataDaPublicacao(),
                 original.getCategoria()
-                //original.getGostei()
         );
     }
 }
