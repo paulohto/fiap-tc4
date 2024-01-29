@@ -230,4 +230,20 @@ class VideoControllerTest {
                 .exchange()
                 .expectStatus().isOk();
     }
+
+    @Test
+    void obterVideosPaginaveis() {
+    }
+
+    @Test
+    void adicionarCurtida() {
+    }
+
+    @Test
+    void obterVideosCurtidasDescendentes() {
+    }
+
+    @Test
+    void obterVideosTop() {
+    }
 }
