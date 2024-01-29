@@ -11,11 +11,11 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 public class VideoCrudUseCase {
 
-    private IVideoGateway ivideoGateway;
+    private final IVideoGateway ivideoGateway;
+
     public VideoCrudUseCase(IVideoGateway ivideoGateway){
         this.ivideoGateway = ivideoGateway;
     }
@@ -81,5 +81,4 @@ public class VideoCrudUseCase {
     public Flux<VideoEntityAux> obterVideosTop(Integer limit){
         return ivideoGateway.obterVideosTop(limit);
     }
-
 }

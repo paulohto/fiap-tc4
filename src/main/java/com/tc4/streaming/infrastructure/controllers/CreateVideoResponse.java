@@ -13,8 +13,6 @@ public record CreateVideoResponse(
         String url,
         LocalDate dataDaPublicacao,
         String categoria
-        //
-        //List<CurtidaEntityAux> curtidas
 ) {
 
 }

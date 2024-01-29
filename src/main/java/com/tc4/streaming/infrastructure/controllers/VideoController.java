@@ -36,7 +36,6 @@ public class VideoController {
     // LISTAGEM GERAL
     @GetMapping
     Flux<VideoEntityAux> obterTodosVideos(){
-        //VideoEntity videoEntityBusinessObj = videoDTOMapper.toVideoEntity(request);
         return this.videoCrudUseCase.obterTodosVideos();
     }
 

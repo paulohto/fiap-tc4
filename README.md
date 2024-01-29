@@ -19,10 +19,8 @@ docker-compose up
 
 ```
 SERVER_PORT=8080
-SPRING_CONFIG_MONGODB_ADMIN_USERNAME=fiap
-SPRING_CONFIG_MONGODB_ADMIN_PASSWORD=fiap123
 SPRING_CONFIG_MONGODB_SERVER=mongodb
-SPRING_CONFIG_MONGODB_URI=mongodb://fiap:fiap123@localhost:27017/
+SPRING_CONFIG_MONGODB_URI=mongodb://root:example@localhost:27017/
 ```
 
 > **_NOTA:_**  Ao rodar a aplicação, para acessar o swagger da api basta acessar a seguinte url a depender da porta escolhida
