@@ -1,7 +1,10 @@
 package com.tc4.streaming.infrastructure.gateway;
 
 import com.tc4.streaming.adapters.gateways.IVideoGateway;
+import com.tc4.streaming.entities.CurtidaEntity;
 import com.tc4.streaming.entities.VideoEntity;
+import com.tc4.streaming.infrastructure.persistence.CurtidaEntityAux;
+import com.tc4.streaming.infrastructure.persistence.ICurtidaRepository;
 import com.tc4.streaming.infrastructure.persistence.IVideoRepository;
 import com.tc4.streaming.infrastructure.persistence.VideoEntityAux;
 import org.springframework.data.domain.*;
@@ -19,9 +22,10 @@ import java.util.stream.Collectors;
 public class VideoRepositoryGateway implements IVideoGateway {
 
     private final MongoTemplate mongoTemplate;
-
     private final IVideoRepository ivideoRepository;
     private final VideoEntityAuxMapper videoEntityAuxMapper;
+    // Mono<Void> adicionarCurtida(String videoId, Curtida curtida);
+    //private final ICurtidaRepository icurtidaRepository;
 
 
     public VideoRepositoryGateway(MongoTemplate mongoTemplate, IVideoRepository ivideoRepository, VideoEntityAuxMapper videoEntityAuxMapper) {
@@ -37,13 +41,13 @@ public class VideoRepositoryGateway implements IVideoGateway {
                 .map(videoEntityAuxMapper::toDomainObj);
     }
 
-    //LISTAGEM GERAL
+    // LISTAGEM GERAL
     @Override
     public Flux<VideoEntityAux> obterTodosVideos(){
         return this.ivideoRepository.findAll();
     }
 
-    //PAGINAÇÃO
+    // PAGINAÇÃO
     @Override
     public Flux<VideoEntityAux> obterVideosPaginaveis(Pageable pageable) {
         //Query query = new Query().with(pageable);
@@ -98,21 +102,34 @@ public class VideoRepositoryGateway implements IVideoGateway {
         return Flux.fromIterable(mongoTemplate.find(query, VideoEntityAux.class));
     }
 
-//    @Override
-//    public Flux<VideoEntityAux> obterVideoPorData(LocalDate data) {
-//        // Ajuste para considerar o intervalo de 00:00:00 a 23:59:59
-//        LocalDateTime startOfDay = data.atStartOfDay();
-//        LocalDateTime endOfDay = data.atTime(23, 59, 59);
-//
-//        Query query = new Query(Criteria.where("dataDaPublicacao").gte(startOfDay).lte(endOfDay));
-//        return Flux.fromIterable(mongoTemplate.find(query, VideoEntityAux.class));
-//    }
-
     @Override
     public Flux<VideoEntityAux> obterVideoPorTituloEData(String titulo, LocalDate data) {
         Query query = new Query(Criteria.where("titulo").is(titulo).and("dataDaPublicacao").is(data));
         return Flux.fromIterable(mongoTemplate.find(query, VideoEntityAux.class));
     }
 
+    @Override
+    public Mono<Void> adicionarCurtida(String videoId, CurtidaEntity curtida) {
+        return ivideoRepository.findById(videoId)
+                .flatMap(videoEntityAux -> {
+                    // Adiciona a curtida no vídeo
+                    videoEntityAux.adicionarCurtida(new CurtidaEntityAux(curtida.getId(), curtida.getValor()));
+
+                    // Salva o vídeo atualizado no repositório
+                    return ivideoRepository.save(videoEntityAux).then();
+                });
+    }
+
+    @Override
+    public Flux<VideoEntityAux> obterVideosCurtidasDescendente() {
+        Query query = new Query().with(Sort.by(Sort.Order.desc("totalCurtidas")));
+        return Flux.fromIterable(mongoTemplate.find(query, VideoEntityAux.class));
+    }
+
+    @Override
+    public Flux<VideoEntityAux> obterVideosTop(Integer limit) {
+        Query query = new Query().with(Sort.by(Sort.Order.desc("totalCurtidas"))).limit(limit);
+        return Flux.fromIterable(mongoTemplate.find(query, VideoEntityAux.class));
+    }
 
 }

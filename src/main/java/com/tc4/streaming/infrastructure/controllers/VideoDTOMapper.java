@@ -14,7 +14,6 @@ public class VideoDTOMapper {
                 videoEntity.getUrl(),
                 videoEntity.getDataDaPublicacao(),
                 videoEntity.getCategoria()
-                //videoEntity.getGostei()
         );
     }
 

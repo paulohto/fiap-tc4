@@ -1,7 +1,12 @@
 package com.tc4.streaming.infrastructure.gateway;
 
+import com.tc4.streaming.entities.CurtidaEntity;
 import com.tc4.streaming.entities.VideoEntity;
+import com.tc4.streaming.infrastructure.persistence.CurtidaEntityAux;
 import com.tc4.streaming.infrastructure.persistence.VideoEntityAux;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class VideoEntityAuxMapper {
     VideoEntityAux toEntity(VideoEntity videoDomainObj){
@@ -23,8 +28,6 @@ public class VideoEntityAuxMapper {
                 videoEntityAux.getUrl(),
                 videoEntityAux.getDataDaPublicacao(),
                 videoEntityAux.getCategoria()
-                /**/
-                //videoEntityAux.getGostei() // Inclua o campo gostei
         );
     }
 }

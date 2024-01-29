@@ -3,10 +3,13 @@ package com.tc4.streaming.infrastructure.persistence;
 import com.tc4.streaming.entities.VideoEntity;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 //import org.springframework.data.relational.core.mapping.Table;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Document(collection = "videos")
 public class VideoEntityAux {
@@ -18,8 +21,13 @@ public class VideoEntityAux {
     private String url;
     private LocalDate dataDaPublicacao;
     private String categoria;
-    //private Integer gostei = 1;
 
+    //@DBRef
+    private List<CurtidaEntityAux> curtidas;
+    private Integer totalCurtidas;  // Atributo para armazenar o total de curtidas
+
+//    @DBRef
+//    private CurtidaEntityAux curtidas;
 
     // Construtor sem argumentos
     public VideoEntityAux() {
@@ -33,6 +41,7 @@ public class VideoEntityAux {
             String url,
             LocalDate dataDaPublicacao,
             String categoria
+
     )
     {
         if (id == null && titulo == null && descricao == null && url == null && dataDaPublicacao == null && categoria == null) {
@@ -48,10 +57,8 @@ public class VideoEntityAux {
         this.url = url;
         this.dataDaPublicacao = dataDaPublicacao;
         this.categoria = categoria;
-        //this.gostei = gostei;
+
     }
-
-
 
     public String getId() {
         return id;
@@ -79,13 +86,41 @@ public class VideoEntityAux {
         return this.categoria;
     }
 
-    // FAVORITAR - GOSTEI //
-//    public Integer getGostei() {
-//        return gostei;
+    // CURTIDAS
+//    public List<CurtidaEntityAux> getCurtidas() {
+//        return curtidas;
 //    }
-//
-//    public void setGostei(Integer gostei) {
-//        this.gostei = gostei;
-//    }
+
+    public void setCurtidas(List<CurtidaEntityAux> curtidas) {
+        this.curtidas = curtidas;
+    }
+
+    public void setTotalCurtidas(Integer totalCurtidas) {
+        this.totalCurtidas = totalCurtidas;
+    }
+
+    // Método para adicionar curtida
+    public void adicionarCurtida(CurtidaEntityAux curtida) {
+        // Adicionar a curtida à lista
+        if (curtidas == null) {
+            curtidas = new ArrayList<>();
+        }
+        curtidas.add(curtida);
+
+        // Incrementar o total de curtidas
+        if (totalCurtidas == null) {
+            totalCurtidas = 0;
+        }
+        totalCurtidas++;
+
+        // Adicionar logs
+        System.out.println("Curtida adicionada. Total de curtidas agora: " + totalCurtidas);
+    }
+
+    // Método para calcular o total de curtidas
+    public Integer getTotalCurtidas() {
+        return curtidas != null ? curtidas.size() : 0;
+    }
+
 
 }

@@ -1,7 +1,10 @@
 package com.tc4.streaming.infrastructure.controllers;
 
+import com.tc4.streaming.infrastructure.persistence.CurtidaEntityAux;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 public record CreateVideoResponse(
         String id,
@@ -10,7 +13,8 @@ public record CreateVideoResponse(
         String url,
         LocalDate dataDaPublicacao,
         String categoria
-        //Integer gostei
+        //
+        //List<CurtidaEntityAux> curtidas
 ) {
 
 }
