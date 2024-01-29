@@ -6,7 +6,6 @@ import java.time.LocalDateTime;
 public class VideoEntity {
 
     private final String id;
-
     private final String titulo;
     private final String descricao;
     private final String url;
