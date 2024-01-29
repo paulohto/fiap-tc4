@@ -1,7 +1,9 @@
 package com.tc4.streaming.usercases;
 
 import com.tc4.streaming.adapters.gateways.IVideoGateway;
+import com.tc4.streaming.entities.CurtidaEntity;
 import com.tc4.streaming.entities.VideoEntity;
+import com.tc4.streaming.infrastructure.persistence.CurtidaEntityAux;
 import com.tc4.streaming.infrastructure.persistence.VideoEntityAux;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -212,5 +214,57 @@ class VideoCrudUseCaseTest {
                 .verify();
 
         Mockito.verify(ivideoGateway, times(1)).obterVideosPaginaveis(any());
+    }
+
+    @Test
+    void adicionarCurtida() {
+
+        CurtidaEntity curtida = new CurtidaEntity( "1234",1);
+
+        Mockito.when(ivideoGateway.adicionarCurtida(anyString(), any(CurtidaEntity.class))).thenReturn(Mono.empty());
+
+        Mono<Void> video = videoCrudUseCase.adicionarCurtida("", curtida);
+
+        StepVerifier.create(video)
+                .expectComplete()
+                .verify();
+
+        Mockito.verify(ivideoGateway, times(1)).adicionarCurtida(anyString(), any(CurtidaEntity.class));
+    }
+
+    @Test
+    void obterVideosCurtidasDescendente() {
+
+        LocalDate dataDaPublicacao = LocalDate.parse("2024-01-16");
+        VideoEntityAux videoEntityAux = new VideoEntityAux( "1234","Tema", "Filme", "https://filme.com", dataDaPublicacao, "filme");
+
+        Mockito.when(ivideoGateway.obterVideosCurtidasDescendente()).thenReturn(Flux.just(videoEntityAux));
+
+        Flux<VideoEntityAux> video = videoCrudUseCase.obterVideosCurtidasDescendente();
+
+        StepVerifier.create(video)
+                .expectNextMatches(Objects::nonNull)
+                .expectComplete()
+                .verify();
+
+        Mockito.verify(ivideoGateway, times(1)).obterVideosCurtidasDescendente();
+    }
+
+    @Test
+    void obterVideosTop() {
+
+        LocalDate dataDaPublicacao = LocalDate.parse("2024-01-16");
+        VideoEntityAux videoEntityAux = new VideoEntityAux( "1234","Tema", "Filme", "https://filme.com", dataDaPublicacao, "filme");
+
+        Mockito.when(ivideoGateway.obterVideosTop(any())).thenReturn(Flux.just(videoEntityAux));
+
+        Flux<VideoEntityAux> video = videoCrudUseCase.obterVideosTop(1);
+
+        StepVerifier.create(video)
+                .expectNextMatches(Objects::nonNull)
+                .expectComplete()
+                .verify();
+
+        Mockito.verify(ivideoGateway, times(1)).obterVideosTop(any());
     }
 }

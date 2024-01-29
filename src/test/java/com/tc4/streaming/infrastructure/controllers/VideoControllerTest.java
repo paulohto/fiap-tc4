@@ -1,5 +1,7 @@
 package com.tc4.streaming.infrastructure.controllers;
 
+import com.tc4.streaming.adapters.gateways.IVideoGateway;
+import com.tc4.streaming.entities.CurtidaEntity;
 import com.tc4.streaming.entities.VideoEntity;
 import com.tc4.streaming.infrastructure.persistence.VideoEntityAux;
 import com.tc4.streaming.usercases.VideoCrudUseCase;
@@ -35,6 +37,9 @@ class VideoControllerTest {
     private VideoCrudUseCase videoCrudUseCase;
     @MockBean
     private VideoDTOMapper videoDTOMapper;
+
+    @MockBean
+    private IVideoGateway ivideoGateway;
 
     @InjectMocks
     private VideoController videoController;
@@ -226,6 +231,77 @@ class VideoControllerTest {
                         .path("/videos/titulo-data")
                         .queryParam("titulo", "Tema")
                         .queryParam("data", "2024-01-16")
+                        .build())
+                .exchange()
+                .expectStatus().isOk();
+    }
+
+    @Test
+    void obterVideosPaginaveis() {
+
+        LocalDate dataDaPublicacao = LocalDate.parse("2024-01-16");
+        VideoEntityAux videoEntityAux = new VideoEntityAux( "1234","Tema", "Filme", "https://filme.com", dataDaPublicacao, "filme");
+
+        Mockito.when(videoCrudUseCase.obterVideosPaginaveis(0, 10)).thenReturn(Flux.just(videoEntityAux));
+
+        webTestClient.get().uri(uriBuilder -> uriBuilder
+                        .path("/videos/pagina-videos")
+                        .queryParam("page", 0)
+                        .queryParam("size", 10)
+                        .build())
+                .exchange()
+                .expectStatus().isOk();
+    }
+
+//    @Test
+//    @DisplayName("Adiciona curtidas com sucesso")
+//    void adicionarCurtida() {
+//
+//        LocalDate dataDaPublicacao = LocalDate.parse("2024-01-16");
+//        VideoEntityAux videoEntityAux = new VideoEntityAux( "1234","Tema", "Filme", "https://filme.com", dataDaPublicacao, "filme");
+//        CurtidaEntity curtida = new CurtidaEntity("1234", 1);
+//
+//        Mockito.when(ivideoGateway.adicionarCurtida("1234", curtida)).thenReturn(Mono.empty());
+//        Mockito.when(videoCrudUseCase.obterVideoPorCodigo("1234")).thenReturn(Mono.just(videoEntityAux));
+//        Mockito.when(videoCrudUseCase.adicionarCurtida("1234", curtida)).thenReturn(Mono.empty());
+//
+//        webTestClient.post().uri(uriBuilder -> uriBuilder
+//                        .path("/videos/curtir/1234")
+//                        .queryParam("curtir", 1)
+//                        .build())
+//                .exchange()
+//                .expectStatus().isOk();
+//
+//        Mockito.verify(videoCrudUseCase).adicionarCurtida(anyString(), any(CurtidaEntity.class));
+//    }
+
+    @Test
+    @DisplayName("Obtem videos curtidas descendentes com sucesso")
+    void obterVideosCurtidasDescendentes() {
+
+        LocalDate dataDaPublicacao = LocalDate.parse("2024-01-16");
+        VideoEntityAux videoEntityAux = new VideoEntityAux( "1234","Tema", "Filme", "https://filme.com", dataDaPublicacao, "filme");
+
+        Mockito.when(videoCrudUseCase.obterVideosCurtidasDescendente()).thenReturn(Flux.just(videoEntityAux));
+
+        webTestClient.get().uri("/videos/curtidas-lista-desc")
+                .accept(MediaType.APPLICATION_JSON)
+                .exchange()
+                .expectStatus().isOk();
+    }
+
+    @Test
+    @DisplayName("Obtem videos top com sucesso")
+    void obterVideosTop() {
+
+        LocalDate dataDaPublicacao = LocalDate.parse("2024-01-16");
+        VideoEntityAux videoEntityAux = new VideoEntityAux( "1234","Tema", "Filme", "https://filme.com", dataDaPublicacao, "filme");
+
+        Mockito.when(videoCrudUseCase.obterVideosTop(any())).thenReturn(Flux.just(videoEntityAux));
+
+        webTestClient.get().uri(uriBuilder -> uriBuilder
+                        .path("/videos/top-recomendados")
+                        .queryParam("limit", 1)
                         .build())
                 .exchange()
                 .expectStatus().isOk();
