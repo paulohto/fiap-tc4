@@ -63,6 +63,7 @@ public class VideoController {
         return this.videoCrudUseCase.apagarVideo(id);
     }
 
+    // BLOCO CONSULTA VIDEOS POR...
     @GetMapping("/categoria")
     Flux<VideoEntityAux> obterVideoPorCategoria(@RequestParam("categoria") String categoria){
         return this.videoCrudUseCase.obterVideoPorCategoria(categoria);
@@ -83,11 +84,12 @@ public class VideoController {
         return this.videoCrudUseCase.obterVideoPorTituloEData(titulo,data);
     }
 
+    // BLOCO CURTIDAS
     @PostMapping("/curtir/{id}")
     public Mono<VideoEntityAux> adicionarCurtida(@PathVariable String id, @RequestParam("curtir") Integer valor) {
-        // Crie uma instância de CurtidaEntity
+        // Criar uma instância de CurtidaEntity
         CurtidaEntity curtida = new CurtidaEntity(id, valor); // ou qualquer outro valor desejado
-        // Chame o método de adição de curtida no seu caso de uso
+        // Chamar o método de adição de curtida no seu caso de uso
         return videoCrudUseCase.adicionarCurtida(id, curtida)
                 .then(Mono.defer(() -> videoCrudUseCase.obterVideoPorCodigo(id)))
                 .switchIfEmpty(Mono.error(new RuntimeException("Vídeo não encontrado"))); // Trate o caso em que o vídeo não é encontrado

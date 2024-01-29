@@ -25,7 +25,6 @@ public class VideoDTOMapper {
                 request.url(),
                 request.dataDaPublicacao(),
                 request.categoria()
-                //1
         );
     }
 }

@@ -67,7 +67,7 @@ public class VideoCrudUseCase {
 
     // ADICIONAR CURTIDA AO VIDEO (ACOPLADO DEVIDO A SIMPLICIDADE DO METODO)
     public Mono<Void> adicionarCurtida(String videoId, CurtidaEntity curtida) {
-        // Adicione logs para rastrear os valores
+        // logs para rastrear os valores
         System.out.println("ID no VideoCrudUseCase: " + videoId);
         System.out.println("CurtidaEntity no VideoCrudUseCase: " + curtida);
 

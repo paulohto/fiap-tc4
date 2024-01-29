@@ -22,12 +22,8 @@ public class VideoEntityAux {
     private LocalDate dataDaPublicacao;
     private String categoria;
 
-    //@DBRef
     private List<CurtidaEntityAux> curtidas;
     private Integer totalCurtidas;  // Atributo para armazenar o total de curtidas
-
-//    @DBRef
-//    private CurtidaEntityAux curtidas;
 
     // Construtor sem argumentos
     public VideoEntityAux() {
@@ -86,11 +82,7 @@ public class VideoEntityAux {
         return this.categoria;
     }
 
-    // CURTIDAS
-//    public List<CurtidaEntityAux> getCurtidas() {
-//        return curtidas;
-//    }
-
+    // BLOCO CURTIDAS
     public void setCurtidas(List<CurtidaEntityAux> curtidas) {
         this.curtidas = curtidas;
     }

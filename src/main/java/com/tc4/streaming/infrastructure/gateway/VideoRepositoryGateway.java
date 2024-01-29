@@ -55,12 +55,14 @@ public class VideoRepositoryGateway implements IVideoGateway {
         return Flux.fromIterable(mongoTemplate.find(query, VideoEntityAux.class));
     }
 
+    // CONSULTA LISTA DE VIDEOS
     @Override
     public Mono<VideoEntityAux> obterVideoPorCodigo(String videoId) {
         return this.ivideoRepository
                 .findById(videoId);
     }
 
+    // EDITA VIDEOS POR ID
     @Override
     public Mono<VideoEntity> editarVideo(String videoId, VideoEntityAux videoEditado) {
         return this.ivideoRepository.findById(videoId)
@@ -79,11 +81,13 @@ public class VideoRepositoryGateway implements IVideoGateway {
                 });
     }
 
+    // APAGA VIDEOS POR ID
     @Override
     public Mono<Void> apagarVideo(String videoId) {
         return ivideoRepository.deleteById(videoId);
     }
 
+    // BLOCO CONSULTA VIDEOS POR...
     @Override
     public Flux<VideoEntityAux> obterVideoPorCategoria(String categoria) {
         Query query = new Query(Criteria.where("categoria").is(categoria));
@@ -108,13 +112,13 @@ public class VideoRepositoryGateway implements IVideoGateway {
         return Flux.fromIterable(mongoTemplate.find(query, VideoEntityAux.class));
     }
 
+    // ADICIONA CURTIDA AO VIDEO
     @Override
     public Mono<Void> adicionarCurtida(String videoId, CurtidaEntity curtida) {
         return ivideoRepository.findById(videoId)
                 .flatMap(videoEntityAux -> {
                     // Adiciona a curtida no vídeo
                     videoEntityAux.adicionarCurtida(new CurtidaEntityAux(curtida.getId(), curtida.getValor()));
-
                     // Salva o vídeo atualizado no repositório
                     return ivideoRepository.save(videoEntityAux).then();
                 });

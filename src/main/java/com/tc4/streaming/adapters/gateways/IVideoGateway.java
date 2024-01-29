@@ -40,8 +40,9 @@ public interface IVideoGateway {
     // ADICIONA CURTIDA AO VIDEO
     Mono<Void> adicionarCurtida(String videoId, CurtidaEntity curtida);
 
-    // CONSULTA VIDEOS MAIS CURTIDOS
+    // LISTAGEM CURTIDOS DESC
     Flux<VideoEntityAux> obterVideosCurtidasDescendente();
 
+    // LISTAGEM MAIS CURTIDOS RECOMENDADOS
     Flux<VideoEntityAux> obterVideosTop(Integer limit);
 }
