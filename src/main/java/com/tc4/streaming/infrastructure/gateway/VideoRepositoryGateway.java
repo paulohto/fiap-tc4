@@ -50,7 +50,6 @@ public class VideoRepositoryGateway implements IVideoGateway {
     // PAGINAÇÃO
     @Override
     public Flux<VideoEntityAux> obterVideosPaginaveis(Pageable pageable) {
-        //Query query = new Query().with(pageable);
         Query query = new Query().with(Sort.by(Sort.Order.desc("dataDaPublicacao"))).with(pageable);
         return Flux.fromIterable(mongoTemplate.find(query, VideoEntityAux.class));
     }
@@ -135,5 +134,4 @@ public class VideoRepositoryGateway implements IVideoGateway {
         Query query = new Query().with(Sort.by(Sort.Order.desc("totalCurtidas"))).limit(limit);
         return Flux.fromIterable(mongoTemplate.find(query, VideoEntityAux.class));
     }
-
 }
