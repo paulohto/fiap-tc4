@@ -15,4 +15,6 @@ public interface IVideoRepository extends ReactiveMongoRepository<VideoEntityAux
     //PAGINAÇÃO
     Flux<VideoEntityAux> findAll(Sort sort);
 
+    Mono<VideoEntityAux> save(VideoEntityAux video);
+
 }

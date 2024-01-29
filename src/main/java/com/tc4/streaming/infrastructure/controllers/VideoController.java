@@ -1,5 +1,6 @@
 package com.tc4.streaming.infrastructure.controllers;
 
+import com.tc4.streaming.entities.CurtidaEntity;
 import com.tc4.streaming.entities.VideoEntity;
 import com.tc4.streaming.infrastructure.persistence.VideoEntityAux;
 import com.tc4.streaming.usercases.VideoCrudUseCase;
@@ -32,13 +33,13 @@ public class VideoController {
                 .map(videoDTOMapper::toResponse);
     }
 
-    //LISTAGEM GERAL
+    // LISTAGEM GERAL
     @GetMapping
     Flux<VideoEntityAux> obterTodosVideos(){
         return this.videoCrudUseCase.obterTodosVideos();
     }
 
-    //PAGINAÇÃO
+    // PAGINAÇÃO
     @GetMapping("/pagina-videos")
     public ResponseEntity<Flux<VideoEntityAux>> obterVideosPaginaveis(@RequestParam(defaultValue = "0") int page,
                                                                       @RequestParam(defaultValue = "10") int size) {
@@ -61,6 +62,7 @@ public class VideoController {
         return this.videoCrudUseCase.apagarVideo(id);
     }
 
+    // BLOCO CONSULTA VIDEOS POR...
     @GetMapping("/categoria")
     Flux<VideoEntityAux> obterVideoPorCategoria(@RequestParam("categoria") String categoria){
         return this.videoCrudUseCase.obterVideoPorCategoria(categoria);
@@ -80,5 +82,27 @@ public class VideoController {
     Flux<VideoEntityAux> obterVideoPorTituloEData(@RequestParam("titulo") String titulo, @RequestParam("data") LocalDate data){
         return this.videoCrudUseCase.obterVideoPorTituloEData(titulo,data);
     }
+
+    // BLOCO CURTIDAS
+    @PostMapping("/curtir/{id}")
+    public Mono<VideoEntityAux> adicionarCurtida(@PathVariable String id, @RequestParam("curtir") Integer valor) {
+        // Criar uma instância de CurtidaEntity
+        CurtidaEntity curtida = new CurtidaEntity(id, valor); // ou qualquer outro valor desejado
+        // Chamar o método de adição de curtida no seu caso de uso
+        return videoCrudUseCase.adicionarCurtida(id, curtida)
+                .then(Mono.defer(() -> videoCrudUseCase.obterVideoPorCodigo(id)))
+                .switchIfEmpty(Mono.error(new RuntimeException("Vídeo não encontrado"))); // Trate o caso em que o vídeo não é encontrado
+    }
+
+    @GetMapping("/curtidas-lista-desc")
+    Flux<VideoEntityAux> obterVideosCurtidasDescendentes() {
+        return videoCrudUseCase.obterVideosCurtidasDescendente();
+    }
+
+    @GetMapping("/top-recomendados")
+    Flux<VideoEntityAux> obterVideosTop(@RequestParam("limit") Integer limit) {
+        return videoCrudUseCase.obterVideosTop(limit);
+    }
+
 
 }
