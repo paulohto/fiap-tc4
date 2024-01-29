@@ -37,7 +37,6 @@ Garantindo a independência das camadas e isolamento com Framework e partes exte
     </li>
 </ul>
 
-<!-- Camadas Externas -->
 ## Camadas Externas:
 Permitindo interação com ambiente externo e relação entre classes.
 
