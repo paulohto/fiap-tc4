@@ -165,18 +165,69 @@ class VideoControllerTest {
     }
 
     @Test
-    void obterVideoPorCategoria() {
+    @DisplayName("Obtem videos por categoria com sucesso")
+    void obterVideoPorCategoriaComSucesso() {
+
+        LocalDate dataDaPublicacao = LocalDate.parse("2024-01-16");
+        VideoEntityAux videoEntityAux = new VideoEntityAux( "1234","Tema", "Filme", "https://filme.com", dataDaPublicacao, "filme");
+
+        Mockito.when(videoCrudUseCase.obterVideoPorCategoria(anyString())).thenReturn(Flux.just(videoEntityAux));
+
+        webTestClient.get().uri(uriBuilder -> uriBuilder
+                        .path("/videos/categoria")
+                        .queryParam("categoria", "filme")
+                        .build())
+                .exchange()
+                .expectStatus().isOk();
     }
 
     @Test
+    @DisplayName("Obtem videos por titulo com sucesso")
     void obterVideoPorTitulo() {
+
+        LocalDate dataDaPublicacao = LocalDate.parse("2024-01-16");
+        VideoEntityAux videoEntityAux = new VideoEntityAux( "1234","Tema", "Filme", "https://filme.com", dataDaPublicacao, "filme");
+
+        Mockito.when(videoCrudUseCase.obterVideoPorTitulo(anyString())).thenReturn(Flux.just(videoEntityAux));
+
+        webTestClient.get().uri(uriBuilder -> uriBuilder
+                        .path("/videos/titulo")
+                        .queryParam("titulo", "Tema")
+                        .build())
+                .exchange()
+                .expectStatus().isOk();
     }
 
     @Test
     void obterVideoPorData() {
+
+        LocalDate dataDaPublicacao = LocalDate.parse("2024-01-16");
+        VideoEntityAux videoEntityAux = new VideoEntityAux( "1234","Tema", "Filme", "https://filme.com", dataDaPublicacao, "filme");
+
+        Mockito.when(videoCrudUseCase.obterVideoPorData(any())).thenReturn(Flux.just(videoEntityAux));
+
+        webTestClient.get().uri(uriBuilder -> uriBuilder
+                        .path("/videos/data")
+                        .queryParam("data", "2024-01-16")
+                        .build())
+                .exchange()
+                .expectStatus().isOk();
     }
 
     @Test
     void obterVideoPorTituloEData() {
+
+        LocalDate dataDaPublicacao = LocalDate.parse("2024-01-16");
+        VideoEntityAux videoEntityAux = new VideoEntityAux( "1234","Tema", "Filme", "https://filme.com", dataDaPublicacao, "filme");
+
+        Mockito.when(videoCrudUseCase.obterVideoPorTituloEData(anyString(), any())).thenReturn(Flux.just(videoEntityAux));
+
+        webTestClient.get().uri(uriBuilder -> uriBuilder
+                        .path("/videos/titulo-data")
+                        .queryParam("titulo", "Tema")
+                        .queryParam("data", "2024-01-16")
+                        .build())
+                .exchange()
+                .expectStatus().isOk();
     }
 }
