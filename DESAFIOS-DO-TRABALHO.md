@@ -83,3 +83,5 @@ Permitindo interação com ambiente externo e relação entre classes.
 O principal desafio do trabalho foi justamente implementar toda a funcionalidade mantendo as bases Clean Architecture. O que torna o trabalho maior, com mais classes e linhas, porém mantem a limpeza entre as camadas e independência. Também torna-se mais fácil para manutenção do código.
 <p>
 Outro desafio relevante foi a inclusão da estrutura Reativa implementando com ReactiveMongoRepository. O que exigiu um pouco mais de pesquisa para manter toda estrutura conforme o requisito do trabalho.
+<p>
+Ainda observamos como ponto de melhoria a implementação de Curtida única ligado ao Id do Usuário em ambiente logado não permitindo inúmeras curtidas. 
